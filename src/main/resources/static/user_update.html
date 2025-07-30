@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>유저 정보 수정 테스트</title>
+</head>
+<body>
+<h1>유저 정보 수정 테스트</h1>
+
+<form id="userForm">
+    <label>UID (고유번호): <input type="number" id="uid" value="1" /></label><br/>
+    <label>UserId: <input type="text" id="userId" value="user1" /></label><br/>
+    <label>NickName: <input type="text" id="nickName" value="닉네임" /></label><br/>
+    <label>Password: <input type="password" id="user_pw" value="1234" /></label><br/>
+    <label>Recently Store: <input type="text" id="recently_store" value="매장1" /></label><br/>
+    <label>Saved Store: <input type="text" id="saved_store" value="매장2" /></label><br/>
+    <button type="submit">수정 요청</button>
+</form>
+
+<pre id="result"></pre>
+
+<script>
+    const form = document.getElementById('userForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const data = {
+            uid: Number(document.getElementById('uid').value),
+            userId: document.getElementById('userId').value,
+            nickName: document.getElementById('nickName').value,
+            user_pw: document.getElementById('user_pw').value,
+            recently_store: document.getElementById('recently_store').value,
+            saved_store: document.getElementById('saved_store').value
+        };
+
+        fetch('/user/update', {
+            method: 'PATCH',  // 혹은 PUT, 백엔드에 맞게 수정
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('네트워크 응답 에러');
+                return res.json();
+            })
+            .then(json => {
+                result.textContent = JSON.stringify(json, null, 2);
+            })
+            .catch(err => {
+                result.textContent = '에러: ' + err.message;
+            });
+    });
+</script>
+</body>
+</html>
