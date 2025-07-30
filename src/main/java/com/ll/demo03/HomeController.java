@@ -10,9 +10,17 @@ public class HomeController {
     @Value("${custom.site.name}")
     private String siteName;
 
+    @Value("${custom.secret.key}")
+    private String secretKey;
+
     @GetMapping("/")
     public String showMain() {
         return "Hello, World!, " + siteName;
+    }
+
+    @GetMapping("/secretKey")
+    public String showSecretKey() {
+        return "SecretKey: " + secretKey;
     }
 }
 
