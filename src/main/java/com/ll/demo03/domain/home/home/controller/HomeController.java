@@ -1,4 +1,4 @@
-package com.ll.demo03;
+package com.ll.demo03.domain.home.home.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,9 +1,26 @@
 server:
-  port: 8070
+  port: 8080
 spring:
     profiles:
       active: dev
       include: secret
+    datasource:
+      url: jdbc:mysql://localhost:3306/surl_dev
+      username: root
+      password: 12345678
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+      show-sql: true  # 콘솔에 SQL 출력
+      properties:
+        hibernate:
+          format_sql: true   # SQL 보기 좋게 정렬
+          highlight_sql: true # 색상 강조 (가능한 경우)
+          ddl-auto: update
+      logging:
+        level:
+          org.hibernate.SQL: debug              # 실행되는 SQL
+          org.hibernate.type.descriptor.sql: trace # 바인딩되는 파라미터 값
+
 custom:
     site:
       name: "my site"
