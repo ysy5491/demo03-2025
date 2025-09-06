@@ -16,7 +16,7 @@ primary_region = 'nrt'
   min_machines_running = 0
   processes = ['app']
 
-[[services.ports]]
+[[services.ports]] # 이거 추가하니까 배포 됨 (앞에 프로토콜 http와 https 연결 허용)
 port = 80
 handlers = ["http"]
 

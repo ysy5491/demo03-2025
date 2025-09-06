@@ -15,7 +15,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String showMain() {
-        return "Hello, World!, " + siteName;
+        return "지환이의 사이트, " + siteName;
     }
 
     @GetMapping("/secretKey")
