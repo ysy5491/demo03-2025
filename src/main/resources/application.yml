@@ -5,17 +5,18 @@ spring:
       active: dev
       include: secret
     datasource:
-      url: jdbc:mysql://localhost:3306/surl_dev
-      username: root
-      password: 12345678
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:postgresql://localhost:5432/surl_dev
+      username: postgres
+      password: lldj123414
+      driver-class-name: org.postgresql.Driver
     jpa:
+      hibernate:
+        ddl-auto: update # 이 옵션은 항상 jpa.hibernate. 이 밑에 와야한다 이 옵션이 propertiese.hibernate로 작성해 테이블이 생성되지 않아 엄청 애먹었다...
       show-sql: true  # 콘솔에 SQL 출력
       properties:
         hibernate:
           format_sql: true   # SQL 보기 좋게 정렬
           highlight_sql: true # 색상 강조 (가능한 경우)
-          ddl-auto: update
       logging:
         level:
           org.hibernate.SQL: debug              # 실행되는 SQL
