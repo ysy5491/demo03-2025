@@ -1,5 +1,6 @@
 server: # fly.io 내부에서 실행될때 이 설정이 동작함
   port: 8090
+  address: 0.0.0.0 # 이렇게 안하면 외부에서 접속이 불가능
 spring:
   datasource:
     url: jdbc:postgresql://ysy5491-db.internal:5432/surl_prod
@@ -14,6 +15,7 @@ spring:
         format_sql: false
         highlight_sql: false
         use_sql_comments: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 logging:
   level:
     com.ll.demo03: INFO
