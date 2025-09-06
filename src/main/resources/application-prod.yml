@@ -1,5 +1,26 @@
-server:
+server: # fly.io 내부에서 실행될때 이 설정이 동작함
   port: 8090
+spring:
+  datasource:
+    url: jdbc:postgresql://ysy5491-db.internal:5432/surl_prod
+    username: postgres
+    password: sTeRknqYlXInnUY
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+        highlight_sql: false
+        use_sql_comments: false
+logging:
+  level:
+    com.ll.demo03: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+    org.hibernate.orm.jdbc.extract: INFO
+    org.springframework.transaction.interceptor: INFO
 custom:
   site:
-    name: "my site prod"
+    name: "My Site Prod"

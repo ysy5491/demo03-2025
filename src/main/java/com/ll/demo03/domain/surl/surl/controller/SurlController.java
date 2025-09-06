@@ -8,6 +8,7 @@ import com.ll.demo03.global.rq.Rq;
 import com.ll.demo03.global.rsData.RsData;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class SurlController {
     private final Rq rq;
     private final SurlService surlService;
@@ -32,13 +34,7 @@ public class SurlController {
     public RsData<Surl> add(String body, String url){
         Member member = rq.getMember(); // 현재 브라우저로 로그인한 회원
 
-        System.out.println("before get id");
-        member.getId();
-        System.out.println("after get id");
-
-        System.out.println("before get username");
-        member.getUsername();
-        System.out.println("after get username");
+        log.debug("log test"); // application.yml에 로깅레벨을 info로 올렸기 때문에 운영모드에서는 debug레벨은 보여지지 않는다
 
         return surlService.add(member, body, url);
     }

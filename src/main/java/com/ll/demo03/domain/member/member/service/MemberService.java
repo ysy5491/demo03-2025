@@ -32,12 +32,16 @@ public class MemberService {
         return RsData.of("회원가입 완료", member);
     }
 
-    private Optional<Member> findByUsername(String username) {
+    public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 
     // getReferenceById는 프록시 객체를 반환 pk만 알고 있고 실제 그 외에 실제 조회가 필요할때 select 실행 (성능 최적화)
     public Member getById(long id) {
         return memberRepository.getReferenceById(1L);
+    }
+
+    public long count() {
+        return memberRepository.count();
     }
 }

@@ -5,10 +5,10 @@ spring:
       active: dev
       include: secret
     datasource:
-      url: jdbc:postgresql://localhost:5432/surl_dev
-      username: postgres
-      password: lldj123414
-      driver-class-name: org.postgresql.Driver
+      url: jdbc:h2:./db_dev;MODE=MySQL # MODE=MySQL 상용 db mysql 흉내내는거임
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
     jpa:
       hibernate:
         ddl-auto: update # 이 옵션은 항상 jpa.hibernate. 이 밑에 와야한다 이 옵션이 propertiese.hibernate로 작성해 테이블이 생성되지 않아 엄청 애먹었다...
@@ -20,7 +20,7 @@ spring:
       logging:
         level:
           org.hibernate.SQL: debug              # 실행되는 SQL
-          org.hibernate.type.descriptor.sql: trace # 바인딩되는 파라미터 값
+          org.hibernate.type.descriptor.sql: INFO # 바인딩되는 파라미터 값
 
 custom:
     site:

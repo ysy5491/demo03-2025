@@ -1,0 +1,6 @@
+spring:
+    datasource:
+      url: jdbc:h2:mem:db_test;MODE=MySQL # MODE=MySQL 상용 db mysql 흉내내는거임
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver

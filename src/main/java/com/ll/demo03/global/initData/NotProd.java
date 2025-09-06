@@ -12,25 +12,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 
 // !Prod == dev or test
 @Profile("!Prod")
 @Configuration
 @RequiredArgsConstructor
 public class NotProd {
-    private final ArticleService articleService;
-    private final MemberService memberService;
 
     @Lazy
     @Autowired
     private NotProd self;
+    private final ArticleService articleService;
+    private final MemberService memberService;
 
     @Bean
+    @Order(4)
     public ApplicationRunner initNotProd() {
         return args -> {
             System.out.println("NotProd.initNotProd");
             self.work1();
-            self.work2();
         };
     }
 
@@ -38,15 +39,14 @@ public class NotProd {
     public void work1() {
         if (articleService.count() > 0) return;
 
-        Member member1 = memberService.join("jihwan", "5491", "jihwan").getData();
-        Member member2 = memberService.join("jiwan", "5491", "ji").getData();
+        Member memberUser1 = memberService.findByUsername("user1").get();
+        Member memberUser2 = memberService.findByUsername("user2").get();
 
-        Article article1 = articleService.write(member1, "title1", "body1").getData();
-        Article article2 = articleService.write(member2, "title2", "body2").getData();
+        Article article1 = articleService.write(memberUser1, "title1", "body1").getData();
+        Article article2 = articleService.write(memberUser1, "title2", "body2").getData();
 
-    }
-
-    private void work2() {
+        Article article3 = articleService.write(memberUser2, "title3", "body1").getData();
+        Article article4 = articleService.write(memberUser2, "title4", "body2").getData();
 
     }
 }
