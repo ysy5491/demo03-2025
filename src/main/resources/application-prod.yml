@@ -1,12 +1,23 @@
 server: # fly.io 내부에서 실행될때 이 설정이 동작함
   port: 8090
   address: 0.0.0.0 # 이렇게 안하면 외부에서 접속이 불가능
+  shutdown: graceful
 spring:
+  autoconfigure:
+    exclude:
+  lifecycle:
+    # 스프링 부트 종료 요청을 받은 후 기다려줄 수 있는 최대한의 시간
+    timeout-per-shutdown-phase: 1h
   datasource:
     url: jdbc:mysql://172.17.0.1:3306/surl_prod
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: 172.17.0.1
+      port: 6379
+      password: #{custom.secret.spring.data.redis.password}
   jpa:
     hibernate:
       ddl-auto: update
