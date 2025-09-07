@@ -3,10 +3,10 @@ server: # fly.io 내부에서 실행될때 이 설정이 동작함
   address: 0.0.0.0 # 이렇게 안하면 외부에서 접속이 불가능
 spring:
   datasource:
-    url: jdbc:postgresql://ysy5491-db.internal:5432/surl_prod
-    username: postgres
-    password: sTeRknqYlXInnUY
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://172.17.0.1:3306/surl_prod
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
