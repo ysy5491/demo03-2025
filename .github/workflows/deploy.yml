@@ -82,6 +82,18 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
+      - name: Test SSM Command
+        run: |
+          aws ssm send-command \
+            --region ap-northeast-2 \
+            --targets "Key=instanceIds,Values=i-0b13129d3f60a9bcd" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy" \
+            --parameters 'commands=["echo Hello SSM"]'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: AWS SSM Send-Command
         uses: peterkimzz/aws-ssm-send-command@master
@@ -98,4 +110,3 @@ jobs:
             curl -o /dockerProjects/surl/zero_downtime_deploy.py https://raw.githubusercontent.com/ysy5491/demo03-2025/main/infraScript/zero_downtime_deploy.py
             chmod +x /dockerProjects/surl/zero_downtime_deploy.py
             /dockerProjects/surl/zero_downtime_deploy.py
-  
