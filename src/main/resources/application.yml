@@ -16,6 +16,9 @@ spring:
       username: sa
       password:
       driver-class-name: org.h2.Driver
+    jackson:
+      serialization:
+        fail-on-empty-beans: false
     jpa:
       hibernate:
         ddl-auto: update # 이 옵션은 항상 jpa.hibernate. 이 밑에 와야한다 이 옵션이 propertiese.hibernate로 작성해 테이블이 생성되지 않아 엄청 애먹었다...
@@ -32,3 +35,7 @@ spring:
 custom:
     site:
       name: "my site"
+
+logging:
+  level:
+    com.ll.demo03: debug

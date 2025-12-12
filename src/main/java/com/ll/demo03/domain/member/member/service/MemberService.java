@@ -15,7 +15,6 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-
     @Transactional
     public RsData<Member> join(String username, String password, String nickname) {
         findByUsername(username).ifPresent(member -> {
