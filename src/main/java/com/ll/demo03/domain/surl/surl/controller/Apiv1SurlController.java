@@ -13,12 +13,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/surls")
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class Apiv1SurlController {
     private final SurlService surlService;
     private final Rq rq;

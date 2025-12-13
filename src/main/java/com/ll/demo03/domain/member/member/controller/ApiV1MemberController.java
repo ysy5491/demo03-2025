@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ApiV1MemberController {
     private final MemberService memberService;
 
@@ -42,6 +44,7 @@ public class ApiV1MemberController {
     // Create
     // 위에 설정한 notblank 제약조건이 실행되게 할려면 받는 바디에 Valid 어노테이션 붙여야 함
     @PostMapping("")
+    @Transactional
     public RsData<MemberJoinResponseBody> join(
             @RequestBody @Valid MemberJoinRequestBody requestBody) {
         // 일부러 Exception 발생 시키기 위한 코드

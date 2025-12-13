@@ -20,6 +20,7 @@ spring:
       serialization:
         fail-on-empty-beans: false
     jpa:
+      open-in-view: false # osiv 끄는 설정(강사 스타일 타임리프, jsp할때는 안끔 그러나 restApi 구현일때는 끔)
       hibernate:
         ddl-auto: update # 이 옵션은 항상 jpa.hibernate. 이 밑에 와야한다 이 옵션이 propertiese.hibernate로 작성해 테이블이 생성되지 않아 엄청 애먹었다...
       show-sql: true  # 콘솔에 SQL 출력
