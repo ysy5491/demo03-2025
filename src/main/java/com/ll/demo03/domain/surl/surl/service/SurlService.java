@@ -39,4 +39,8 @@ public class SurlService {
     public void increaseCount(Surl surl) {
         surl.increaseCount();
     }
+
+    public void delete(Surl surl) {
+        surlRepository.deleteById(surl.getId());
+    }
 }
