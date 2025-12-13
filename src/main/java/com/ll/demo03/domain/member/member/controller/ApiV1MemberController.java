@@ -1,5 +1,6 @@
 package com.ll.demo03.domain.member.member.controller;
 
+import com.ll.demo03.domain.member.member.dto.MemberDto;
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
 import com.ll.demo03.global.rsData.RsData;
@@ -35,7 +36,7 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     public static class MemberJoinResponseBody {
-        Member item;
+        MemberDto item;
     }
 
     // Create
@@ -57,7 +58,9 @@ public class ApiV1MemberController {
         Member member = joinRs.getData(); // 이해를 돋기 위한 코드 저런 타입이다.
 
         return joinRs.newDataOf(
-                new MemberJoinResponseBody(member)
+                new MemberJoinResponseBody(
+                        new MemberDto(member)
+                )
         );
     }
 

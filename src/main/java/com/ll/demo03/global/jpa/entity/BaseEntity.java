@@ -1,5 +1,6 @@
 package com.ll.demo03.global.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,6 +17,7 @@ public abstract class BaseEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @JsonIgnore
     public String getModelName() {
         String simpleName = this.getClass().getSimpleName();
         return Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
