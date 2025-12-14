@@ -28,8 +28,19 @@ public class Rq {
         String actorPassword = req.getParameter("actorPassword");
 
         // header로 파싱
-        if (actorUserName == null) actorUserName = req.getHeader("actorUserName");
-        if (actorPassword == null) actorPassword = req.getHeader("actorPassword");
+//        if (actorUserName == null) actorUserName = req.getHeader("actorUserName");
+//        if (actorPassword == null) actorPassword = req.getHeader("actorPassword");
+
+        // Bearer 토큰 사용 (토큰에 이름 비번 삽입)
+        if (actorUserName == null || actorPassword == null) {
+            String authorization = req.getHeader("Authorization");
+            if (authorization != null) {
+                authorization = authorization.substring("Bearer ".length()).trim();
+                String[] authorizationBits = authorization.split(" ", 2);
+                actorUserName = authorizationBits[0];
+                actorPassword = authorizationBits.length == 2 ? authorizationBits[1] : null; // 삼항연산자 조건 ? 참일때 값 : 거짓일때 값
+            }
+        }
 
         if(Ut.str.isBlank(actorUserName)) throw new GlobalException("401-1", "인증정보(아이디)를 입력해주세요.");
         if(Ut.str.isBlank(actorPassword)) throw new GlobalException("401-2", "인증정보(password)를 입력해주세요.");
