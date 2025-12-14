@@ -3,17 +3,16 @@ package com.ll.demo03.domain.member.member.controller;
 import com.ll.demo03.domain.member.member.dto.MemberDto;
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
+import com.ll.demo03.global.rq.Rq;
 import com.ll.demo03.global.rsData.RsData;
+import com.ll.demo03.standard.dto.Empty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Transactional(readOnly = true)
 public class ApiV1MemberController {
     private final MemberService memberService;
-
+    private final Rq rq;
     // CRUD
 
     @AllArgsConstructor
@@ -65,6 +64,15 @@ public class ApiV1MemberController {
                         new MemberDto(member)
                 )
         );
+    }
+
+    @DeleteMapping("/logout")
+    @Transactional
+    public RsData<Empty> logout() {
+        // 쿠키 삭제
+        rq.removeCookie("actorUserName");
+        rq.removeCookie("actorPassword");
+        return RsData.OK;
     }
 
 

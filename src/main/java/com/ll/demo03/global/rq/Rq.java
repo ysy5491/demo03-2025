@@ -61,6 +61,16 @@ public class Rq {
         return loginedMember;
     }
 
+
+    public String getCurrentUrlPath() {
+        return req.getRequestURI();
+    }
+
+    public void setStatusCode(int statusCode) {
+        resp.setStatus(statusCode);
+    }
+
+    // 쿠키 관련 시작
     private String getCookieValue(String cookieName, String defaultValue) {
 //        if (req.getCookies() != null) {
 //            for (Cookie cookie : req.getCookies()) {
@@ -78,11 +88,11 @@ public class Rq {
                 .orElse(defaultValue);
     }
 
-    public String getCurrentUrlPath() {
-        return req.getRequestURI();
+    public void removeCookie(String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/"); // 모든 페이지(루트)
+        resp.addCookie(cookie);
     }
-
-    public void setStatusCode(int statusCode) {
-        resp.setStatus(statusCode);
-    }
+    // 쿠키 관련 끝
 }
