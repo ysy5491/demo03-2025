@@ -21,7 +21,6 @@ public class AuthService {
         if(actor == null) return false;
         if(surl == null) return false;
 
-        // actor와 surl작성자의 actor가 같으면 true 반한, 즉 앞에 !때문에 작성자가 같다면 false 반환
         return actor.equals(surl.getAuthor());
     }
 
@@ -34,7 +33,6 @@ public class AuthService {
         if(actor == null) return false;
         if(surl == null) return false;
 
-        // actor와 surl작성자의 actor가 같으면 true 반한, 즉 앞에 !때문에 작성자가 같다면 false 반환
         return actor.equals(surl.getAuthor());
     }
 
@@ -47,7 +45,6 @@ public class AuthService {
         if(actor == null) return false;
         if(surl == null) return false;
 
-        // actor와 surl작성자의 actor가 같으면 true 반한, 즉 앞에 !때문에 작성자가 같다면 false 반환
         return actor.equals(surl.getAuthor());
     }
     // =============Surl 권한 종료=================

@@ -17,7 +17,7 @@ public class Rq {
     private final MemberService memberService;
 
     public Member getMember() {
-        return memberService.getById(1L);
+        return memberService.getById(3L);
     }
 
     public String getCurrentUrlPath() {
