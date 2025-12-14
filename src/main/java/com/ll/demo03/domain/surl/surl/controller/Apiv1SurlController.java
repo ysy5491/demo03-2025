@@ -1,5 +1,6 @@
 package com.ll.demo03.domain.surl.surl.controller;
 
+import com.ll.demo03.domain.auth.auth.service.AuthService;
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.surl.surl.dto.SurlDto;
 import com.ll.demo03.domain.surl.surl.entity.Surl;
@@ -27,6 +28,7 @@ import java.util.List;
 public class Apiv1SurlController {
     private final SurlService surlService;
     private final Rq rq;
+    private final AuthService authService;
 
     @AllArgsConstructor
     @Getter
@@ -68,9 +70,7 @@ public class Apiv1SurlController {
 
         Member member = rq.getMember();
 
-        if(!surl.getAuthor().equals(member)) {
-            throw new GlobalException("403-1", "권한이 없습니다!");
-        }
+        authService.checkCanGetSurl(member, surl);
 
         return RsData.of(
                 new SurlGetRespBody(
@@ -84,9 +84,9 @@ public class Apiv1SurlController {
     public RsData<Empty> delete(@PathVariable long id) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
-        if (!surl.getAuthor().equals(rq.getMember())) {
-            throw new GlobalException("403-1", "권한이 없습니다!");
-        }
+        Member member = rq.getMember();
+
+        authService.checkCanDeleteSurl(member, surl);
 
         surlService.delete(surl);
 
@@ -139,10 +139,9 @@ public class Apiv1SurlController {
     public RsData<SurlModifyRespBody> add(@PathVariable long id,
                                           @RequestBody @Valid SurlModifyReqBody reqBody) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
+        Member member = rq.getMember();
 
-        if (!surl.getAuthor().equals(rq.getMember())) {
-            throw new GlobalException("403-1", "권한이 없습니다!");
-        }
+        authService.checkCanModifySurl(member, surl);
 
         RsData<Surl> modifyRs = surlService.modify(surl, reqBody.body, reqBody.url);
 
