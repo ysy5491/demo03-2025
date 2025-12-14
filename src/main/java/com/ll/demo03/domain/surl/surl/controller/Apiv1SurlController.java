@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/surls")
 @RequiredArgsConstructor
@@ -62,7 +64,7 @@ public class Apiv1SurlController {
     // api/v1/surls/{id}
     @GetMapping("/{id}")
     public RsData<SurlGetRespBody> get(@PathVariable long id) {
-        Surl surl = surlService.findyById(id).orElseThrow(GlobalException.E404::new); // :: 문법 공부하자 자바8에 도입됨 e404의 생성자를 참조하겠다는 뜻
+        Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new); // :: 문법 공부하자 자바8에 도입됨 e404의 생성자를 참조하겠다는 뜻
 
         return RsData.of(
                 new SurlGetRespBody(
@@ -74,10 +76,36 @@ public class Apiv1SurlController {
     @DeleteMapping("/{id}")
     @Transactional
     public RsData<Empty> delete(@PathVariable long id) {
-        Surl surl = surlService.findyById(id).orElseThrow(GlobalException.E404::new);
+        Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
         surlService.delete(surl);
 
         return RsData.OK;
+    }
+
+    // 다건 조회
+    @AllArgsConstructor
+    @Getter
+    public static class SurlsGetRespBody {
+        private List<SurlDto> items;
+    }
+
+    // api/v1/surls/{id}
+    @GetMapping("")
+    public RsData<SurlsGetRespBody> getItems() {
+        Member member = rq.getMember();
+
+        // page 기능 제공
+        // QueryDSL
+
+        List<Surl> surls = surlService.findByAuthorOrderByIdDesc(member);
+
+        return RsData.of(
+                new SurlsGetRespBody(
+                        surls.stream()
+                                .map(SurlDto::new)
+                                .toList() // 이 부분 추가 공부하자!
+                        )
+        );
     }
 }

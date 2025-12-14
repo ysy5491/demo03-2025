@@ -23,7 +23,7 @@ public class SurlService {
     @Transactional
     public RsData<Surl> add(Member author, String body, String url) {
         Surl surl = Surl.builder()
-                .member(author)
+                .author(author)
                 .body(body)
                 .url(url)
                 .build();
@@ -31,7 +31,7 @@ public class SurlService {
         return RsData.of("%d번 url이 생성되었습니다.".formatted(surl.getId()), surl);
     }
 
-    public Optional<Surl> findyById(Long id) {
+    public Optional<Surl> findById(Long id) {
         return surlRepository.findById(id);
     }
 
@@ -42,5 +42,9 @@ public class SurlService {
 
     public void delete(Surl surl) {
         surlRepository.deleteById(surl.getId());
+    }
+
+    public List<Surl> findByAuthorOrderByIdDesc(Member author) {
+        return surlRepository.findByAuthorOrderByIdDesc(author);
     }
 }

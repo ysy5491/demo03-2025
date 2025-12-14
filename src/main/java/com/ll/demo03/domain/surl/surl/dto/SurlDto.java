@@ -22,8 +22,8 @@ public class SurlDto {
         this.id = surl.getId();
         this.createDate = surl.getCreateDate();
         this.modifyDate = surl.getModifyDate();
-        this.authorId = surl.getMember().getId();
-        this.authorName = surl.getMember().getName();
+        this.authorId = surl.getAuthor().getId();
+        this.authorName = surl.getAuthor().getName();
         this.body = surl.getBody();
         this.url = surl.getUrl();
         this.count = surl.getCount();

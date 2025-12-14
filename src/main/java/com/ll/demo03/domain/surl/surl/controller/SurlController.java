@@ -63,7 +63,7 @@ public class SurlController {
     @GetMapping("/g/{id}")
     @Transactional
     public String go(@PathVariable long id){
-        Surl surl = surlService.findyById(id).orElseThrow(GlobalException.E404::new);
+        Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
         surlService.increaseCount(surl);
 

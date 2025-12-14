@@ -16,7 +16,7 @@ import lombok.*;
 public class Surl extends BaseTime {
     @ManyToOne
     @JsonIgnore
-    private Member member;
+    private Member author;
     private String body;
     private String url;
     @Setter(AccessLevel.NONE)
