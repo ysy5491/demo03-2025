@@ -66,6 +66,12 @@ public class Apiv1SurlController {
     public RsData<SurlGetRespBody> get(@PathVariable long id) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new); // :: 문법 공부하자 자바8에 도입됨 e404의 생성자를 참조하겠다는 뜻
 
+        Member member = rq.getMember();
+
+        if(!surl.getAuthor().equals(member)) {
+            throw new GlobalException("403-1", "권한이 없습니다!");
+        }
+
         return RsData.of(
                 new SurlGetRespBody(
                         new SurlDto(surl)
@@ -77,6 +83,10 @@ public class Apiv1SurlController {
     @Transactional
     public RsData<Empty> delete(@PathVariable long id) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
+
+        if (!surl.getAuthor().equals(rq.getMember())) {
+            throw new GlobalException("403-1", "권한이 없습니다!");
+        }
 
         surlService.delete(surl);
 
@@ -90,7 +100,7 @@ public class Apiv1SurlController {
         private List<SurlDto> items;
     }
 
-    // api/v1/surls/{id}
+
     @GetMapping("")
     public RsData<SurlsGetRespBody> getItems() {
         Member member = rq.getMember();
@@ -129,6 +139,10 @@ public class Apiv1SurlController {
     public RsData<SurlModifyRespBody> add(@PathVariable long id,
                                           @RequestBody @Valid SurlModifyReqBody reqBody) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
+
+        if (!surl.getAuthor().equals(rq.getMember())) {
+            throw new GlobalException("403-1", "권한이 없습니다!");
+        }
 
         RsData<Surl> modifyRs = surlService.modify(surl, reqBody.body, reqBody.url);
 
