@@ -108,4 +108,34 @@ public class Apiv1SurlController {
                         )
         );
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlModifyReqBody {
+        @NotBlank
+        private String body;
+        @NotBlank
+        private String url;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlModifyRespBody {
+        private SurlDto item;
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public RsData<SurlModifyRespBody> add(@PathVariable long id,
+                                          @RequestBody @Valid SurlModifyReqBody reqBody) {
+        Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
+
+        RsData<Surl> modifyRs = surlService.modify(surl, reqBody.body, reqBody.url);
+
+        return modifyRs.newDataOf(
+                new SurlModifyRespBody(
+                        new SurlDto(modifyRs.getData())
+                )
+        );
+    }
 }
