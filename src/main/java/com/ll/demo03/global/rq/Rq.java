@@ -22,8 +22,14 @@ public class Rq {
     public Member getMember() {
         if (member != null) return member; // 캐싱 방식(한번의 요청에 getmember가 여러번 쓰일수도 있기 때문에 안전장치)
 
+
+        // body로 파싱
         String actorUserName = req.getParameter("actorUserName"); // 뭔지 찾아보자
         String actorPassword = req.getParameter("actorPassword");
+
+        // header로 파싱
+        if (actorUserName == null) actorUserName = req.getHeader("actorUserName");
+        if (actorPassword == null) actorPassword = req.getHeader("actorPassword");
 
         if(Ut.str.isBlank(actorUserName)) throw new GlobalException("401-1", "인증정보(아이디)를 입력해주세요.");
         if(Ut.str.isBlank(actorPassword)) throw new GlobalException("401-2", "인증정보(password)를 입력해주세요.");
