@@ -2,6 +2,7 @@ package com.ll.demo03.domain.surl.surl.controller;
 
 import com.ll.demo03.domain.auth.auth.service.AuthService;
 import com.ll.demo03.domain.member.member.entity.Member;
+import com.ll.demo03.domain.member.member.service.MemberService;
 import com.ll.demo03.domain.surl.surl.dto.SurlDto;
 import com.ll.demo03.domain.surl.surl.entity.Surl;
 import com.ll.demo03.domain.surl.surl.service.SurlService;
@@ -29,6 +30,7 @@ public class Apiv1SurlController {
     private final SurlService surlService;
     private final Rq rq;
     private final AuthService authService;
+    private final MemberService memberService;
 
     @AllArgsConstructor
     @Getter
@@ -65,7 +67,9 @@ public class Apiv1SurlController {
 
     // api/v1/surls/{id}
     @GetMapping("/{id}")
-    public RsData<SurlGetRespBody> get(@PathVariable long id) {
+    public RsData<SurlGetRespBody> get(
+            @PathVariable long id
+    ) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new); // :: 문법 공부하자 자바8에 도입됨 e404의 생성자를 참조하겠다는 뜻
 
         Member member = rq.getMember();
@@ -103,8 +107,8 @@ public class Apiv1SurlController {
 
     @GetMapping("")
     public RsData<SurlsGetRespBody> getItems() {
-        Member member = rq.getMember();
 
+        Member member = rq.getMember();
         // page 기능 제공
         // QueryDSL
 
