@@ -3,7 +3,7 @@ package com.ll.demo03.global.rq;
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
 import com.ll.demo03.global.exceptions.GlobalException;
-import com.ll.demo03.standard.dto.utill.Ut;
+import com.ll.demo03.standard.utill.utill.Ut;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

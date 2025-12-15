@@ -4,7 +4,7 @@ import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
 import com.ll.demo03.global.exceptions.GlobalException;
 import com.ll.demo03.global.rsData.RsData;
-import com.ll.demo03.standard.dto.utill.Ut;
+import com.ll.demo03.standard.utill.utill.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
