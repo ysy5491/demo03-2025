@@ -57,9 +57,9 @@ public class Rq {
 //        Member loginedMember = memberService.findByUsername(actorUserName).orElseThrow(() -> new GlobalException("403-3", "해당 회원이 존재하지 않습니다."));
 //        if (!memberService.matchPassword(actorPassword, loginedMember.getPassword())) throw new GlobalException("403-4", "비밀번호가 틀립니다.");
 // ======================================================================================
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        long id = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        Member member = memberService.findByUsername(name).get();
+        Member member = memberService.findById(id).get();
 
         return member;
     }
