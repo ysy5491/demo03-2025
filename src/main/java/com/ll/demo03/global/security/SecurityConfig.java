@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -19,7 +20,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests ->
-                        authorizeRequests.requestMatchers("/h2-console/**") // 이 부분은
+                        authorizeRequests
+                                .requestMatchers(HttpMethod.POST, "/api/*/members", "/api/*/members/login") // post요청으로오는 저 url
+                                .permitAll()
+                                .requestMatchers("/h2-console/**") // 이 부분은
                                 .permitAll() // 허용
                                 .requestMatchers("/actuator/**")
                                 .permitAll()

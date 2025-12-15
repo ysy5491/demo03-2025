@@ -71,8 +71,9 @@ public class ApiV1MemberController {
     @Transactional
     public RsData<Empty> logout() {
         // 쿠키 삭제
-        rq.removeCookie("actorUserName");
-        rq.removeCookie("actorPassword");
+//        rq.removeCookie("actorUserName");
+//        rq.removeCookie("actorPassword");
+        rq.removeCookie("apiKey");
         return RsData.OK;
     }
 
@@ -101,12 +102,15 @@ public class ApiV1MemberController {
         Member member = memberService.findByUsername(requestBody.username)
                 .orElseThrow(() -> new GlobalException("401-1", "회원이 존재하지 않습니다."));
 
-        if (!member.getPassword().equals(requestBody.password))
+        if (!memberService.matchPassword(requestBody.password, member.getPassword()))
             throw new GlobalException("401-2", "비밀번호가 틀립니다.");
 
         // 쿠키 생성
-        rq.setCookie("actorUserName", member.getUsername());
-        rq.setCookie("actorPassword", member.getPassword());
+        // 유저이름과 비번으로 구움
+//        rq.setCookie("actorUserName", member.getUsername());
+//        rq.setCookie("actorPassword", member.getPassword());
+        // 쿠키에 apikey로 넣자!
+        rq.setCookie("apiKey", member.getApiKey());
 
         return RsData.of(
                 "200-1",

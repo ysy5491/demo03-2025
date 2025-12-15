@@ -29,35 +29,45 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         System.out.println("CustomAuthenticationFilter.doFilterInternal");
 
-        String actorUserName = rq.getCookieValue("actorUserName", null);
-        String actorPassword = rq.getCookieValue("actorPassword", null);
+//        String actorUserName = rq.getCookieValue("actorUserName", null);
+//        String actorPassword = rq.getCookieValue("actorPassword", null);
 
-        if (actorUserName == null || actorPassword == null) {
+//        if (actorUserName == null || actorPassword == null) {
+//            String authorization = request.getHeader("Authorization");
+//            if (authorization != null) {
+//                authorization = authorization.substring("Bearer ".length()).trim();
+//                String[] authorizationBits = authorization.split(" ", 2);
+//                actorUserName = authorizationBits[0];
+//                actorPassword = authorizationBits.length == 2 ? authorizationBits[1] : null; // 삼항연산자 조건 ? 참일때 값 : 거짓일때 값
+//            }
+//        }
+
+//        if (!memberService.matchPassword(actorPassword, loginedMember.getPassword())) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+
+        String apiKey = rq.getCookieValue("apiKey", null);
+
+        if (apiKey == null) {
             String authorization = request.getHeader("Authorization");
             if (authorization != null) {
-                authorization = authorization.substring("Bearer ".length()).trim();
-                String[] authorizationBits = authorization.split(" ", 2);
-                actorUserName = authorizationBits[0];
-                actorPassword = authorizationBits.length == 2 ? authorizationBits[1] : null; // 삼항연산자 조건 ? 참일때 값 : 거짓일때 값
+                apiKey = authorization.substring("Bearer ".length()).trim();
             }
         }
 
-        if (Ut.str.isBlank(actorUserName) || Ut.str.isBlank(actorPassword)) {
+        if (Ut.str.isBlank(apiKey)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        Member loginedMember = memberService.findByUsername(actorUserName).orElse(null);
+        Member loginedMember = memberService.findByApiKey(apiKey).orElse(null);
 
         if (loginedMember == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        if (!memberService.matchPassword(actorPassword, loginedMember.getPassword())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         User user = new User(loginedMember.getId() + "", "", List.of());
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
