@@ -2,12 +2,11 @@ package com.ll.demo03.global.rq;
 
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
-import com.ll.demo03.global.exceptions.GlobalException;
-import com.ll.demo03.standard.utill.utill.Ut;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -25,9 +24,11 @@ public class Rq {
     public Member getMember() {
         if (member != null) return member; // 캐싱 방식(한번의 요청에 getmember가 여러번 쓰일수도 있기 때문에 안전장치)
 
+        // ==================현재 이 인증 로직은 CustomAuthentication에 있음=================
+
         // 쿠키는 클라이언트와 서버가 공유하는 변수로 생각하자
-        String actorUserName = getCookieValue("actorUserName", null);
-        String actorPassword = getCookieValue("actorPassword", null);
+//        String actorUserName = getCookieValue("actorUserName", null);
+//        String actorPassword = getCookieValue("actorPassword", null);
         // 쿠키 인증방식 종료
 
         // body로 파싱
@@ -50,15 +51,17 @@ public class Rq {
 //            }
 //        }
 
-        if(Ut.str.isBlank(actorUserName)) throw new GlobalException("401-1", "인증정보(아이디)를 입력해주세요.");
-        if(Ut.str.isBlank(actorPassword)) throw new GlobalException("401-2", "인증정보(password)를 입력해주세요.");
+//        if(Ut.str.isBlank(actorUserName)) throw new GlobalException("401-1", "인증정보(아이디)를 입력해주세요.");
+//        if(Ut.str.isBlank(actorPassword)) throw new GlobalException("401-2", "인증정보(password)를 입력해주세요.");
+//
+//        Member loginedMember = memberService.findByUsername(actorUserName).orElseThrow(() -> new GlobalException("403-3", "해당 회원이 존재하지 않습니다."));
+//        if (!memberService.matchPassword(actorPassword, loginedMember.getPassword())) throw new GlobalException("403-4", "비밀번호가 틀립니다.");
+// ======================================================================================
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        Member loginedMember = memberService.findByUsername(actorUserName).orElseThrow(() -> new GlobalException("403-3", "해당 회원이 존재하지 않습니다."));
-        if (!memberService.matchPassword(actorPassword, loginedMember.getPassword())) throw new GlobalException("403-4", "비밀번호가 틀립니다.");
+        Member member = memberService.findByUsername(name).get();
 
-        member = loginedMember;
-
-        return loginedMember;
+        return member;
     }
 
 
