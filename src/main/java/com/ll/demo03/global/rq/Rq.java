@@ -71,7 +71,7 @@ public class Rq {
     }
 
     // 쿠키 관련 시작
-    private String getCookieValue(String cookieName, String defaultValue) {
+    public String getCookieValue(String cookieName, String defaultValue) {
 //        if (req.getCookies() != null) {
 //            for (Cookie cookie : req.getCookies()) {
 //                if (cookie.getName().equals(cookieName)) {
