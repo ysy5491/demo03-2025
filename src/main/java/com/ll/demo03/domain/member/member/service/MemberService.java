@@ -6,6 +6,7 @@ import com.ll.demo03.global.exceptions.GlobalException;
 import com.ll.demo03.global.rsData.RsData;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public RsData<Member> join(String username, String password, String nickname) {
@@ -24,7 +26,7 @@ public class MemberService {
         Member member = Member
                 .builder()
                 .username(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .build();
         memberRepository.save(member);

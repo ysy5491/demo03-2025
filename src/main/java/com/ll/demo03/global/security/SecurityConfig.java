@@ -24,7 +24,7 @@ public class SecurityConfig {
                                         frameOptions ->
                                                 frameOptions.sameOrigin()
                                 )
-                ).csrf( // csrf옵션 끄기(restAPI 방식에서는 끄자, 타임리프,mpa 방식은 키자)
+                ).csrf( // csrf옵션 끄기(restAPI 방식에서는 끄자, 타임리프,mpa 방식은 키)
                         csrf ->
                                 csrf.disable()
                 ).formLogin(formLogin -> formLogin
