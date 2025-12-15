@@ -81,6 +81,8 @@ public class Rq {
 //        }
 //        return defaultValue;
         // 스트림 방식 (강사피셜: 이게 보기 더 깔끔하다고 함)
+        if (req.getCookies() == null) return defaultValue;
+
         return Arrays.stream(req.getCookies())
                 .filter(cookie -> cookie.getName().equals(cookieName))
                 .findFirst()
@@ -91,7 +93,15 @@ public class Rq {
     public void removeCookie(String cookieName) {
         Cookie cookie = new Cookie(cookieName, null);
         cookie.setMaxAge(0);
-        cookie.setPath("/"); // 모든 페이지(루트)
+        cookie.setPath("/"); // 모든 페이지(루)
+        resp.addCookie(cookie);
+    }
+
+    public void setCookie(String cookieName, String name) {
+        Cookie cookie = new Cookie(cookieName, name);
+        // 1년
+        cookie.setMaxAge(60 * 60 * 24 * 365);
+        cookie.setPath("/");
         resp.addCookie(cookie);
     }
     // 쿠키 관련 끝
