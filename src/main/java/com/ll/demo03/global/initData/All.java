@@ -42,7 +42,7 @@ public class All {
 
         Member memberUser1 = memberService.join("user1", "5491", "유저1").getData();
         Member memberUser2 = memberService.join("user2", "5491", "유저2").getData();
-
+        Member memberUser3 = memberService.join("ysy5491", "5491", "윤지환").getData();
 //        Article article1 = articleService.write(memberSystem, "title1", "body1").getData();
 //        Article article2 = articleService.write(memberAdmin, "title2", "body2").getData();
 
