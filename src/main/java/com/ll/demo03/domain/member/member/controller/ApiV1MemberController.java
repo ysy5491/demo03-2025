@@ -115,7 +115,7 @@ public class ApiV1MemberController {
         // 쿠키에 apikey로 넣자!
         String accessToken = authTokenService.genToken(member, AppConfig.getAccessTokenExpirationSec()); // 1시간
         rq.setCookie("accessToken", accessToken);
-        rq.setCookie("apiKey", member.getApiKey());
+        rq.setCookie("refreshToken", member.getRefreshToken());
 
         return RsData.of(
                 "200-1",

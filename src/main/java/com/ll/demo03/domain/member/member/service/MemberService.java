@@ -29,7 +29,7 @@ public class MemberService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
-                .apiKey(UUID.randomUUID().toString()) // apikey 생성 uuid 랜덤 난수 발생
+                .refreshToken(UUID.randomUUID().toString()) // jwt용으로 생성
                 .build();
         memberRepository.save(member);
         return RsData.of("회원가입 완료", member);
@@ -56,7 +56,7 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
-    public Optional<Member> findByApiKey(String apiKey) {
-        return memberRepository.findByApiKey(apiKey);
+    public Optional<Member> findByRefreshToken(String refreshToken) {
+        return memberRepository.findByRefreshToken(refreshToken);
     }
 }

@@ -37,7 +37,7 @@ custom:
     site:
       name: "my site"
     accessToken:
-      expirationSec: 60 # 1분
+      expirationSec: 600 # 10분
 
 logging:
   level:

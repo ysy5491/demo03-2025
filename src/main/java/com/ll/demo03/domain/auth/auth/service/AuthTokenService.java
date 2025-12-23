@@ -9,25 +9,52 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AuthTokenService {
+    // 토큰 생성
     public String genToken(Member member, long expireSeconds) { // expireSeconds: 토큰 만료 시간 (초 단위)
+        // 토큰에 담길 데이터
         Claims claims = Jwts
                 .claims()
                 .add("id", member.getId())
                 .add("username", member.getUsername())
                 .build();
-
+        // 토큰 발급 시간 및 만료 시간 설정
         Date issuedAt = new Date();
         Date expiration = new Date(issuedAt.getTime() + 1000 * expireSeconds);
-
+        // 토큰 생성 (반환 값: JWT 문자열)
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(issuedAt)
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, AppConfig.getJwtSecretKey())
                 .compact();
+    }
+
+    // 토큰에서 데이터 꺼내기
+    public Map<String, Object> getDataFrom(String token) {
+        Claims payload = Jwts.parser()
+                .setSigningKey(AppConfig.getJwtSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getPayload();
+
+        return Map.of(
+                "id", payload.get("id", Integer.class),
+                "username", payload.get("username", String.class)
+        );
+    }
+
+    // 토큰 검증
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(AppConfig.getJwtSecretKey()).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
