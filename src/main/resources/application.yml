@@ -36,7 +36,10 @@ spring:
 custom:
     site:
       name: "my site"
+    accessToken:
+      expirationSec: 60 # 1분
 
 logging:
   level:
     com.ll.demo03: debug
+
