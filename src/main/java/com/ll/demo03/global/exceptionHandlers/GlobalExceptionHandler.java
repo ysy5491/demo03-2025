@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -36,6 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GlobalException.class)
     @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     // ResponseEntity의 타입 지정은 바디에 들어가는 타입
     public ResponseEntity<RsData<Empty>> handleException(GlobalException e) {
         log.debug("handleException Started!");

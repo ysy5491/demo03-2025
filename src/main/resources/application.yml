@@ -43,3 +43,5 @@ logging:
   level:
     com.ll.demo03: debug
 
+springdoc:
+  default-produces-media-type: application/json

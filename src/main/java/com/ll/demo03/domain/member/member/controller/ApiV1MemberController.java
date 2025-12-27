@@ -9,6 +9,8 @@ import com.ll.demo03.global.exceptions.GlobalException;
 import com.ll.demo03.global.rq.Rq;
 import com.ll.demo03.global.rsData.RsData;
 import com.ll.demo03.standard.dto.Empty;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -17,12 +19,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 @RestController
-@RequestMapping(value = "/api/v1/members", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/members")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Tag(name = "ApiV1MemberController", description = "회원 CRUD 컨트롤러")
 public class ApiV1MemberController {
     private final MemberService memberService;
     private final AuthTokenService authTokenService;
@@ -50,6 +51,7 @@ public class ApiV1MemberController {
     // 위에 설정한 notblank 제약조건이 실행되게 할려면 받는 바디에 Valid 어노테이션 붙여야 함
     @PostMapping("")
     @Transactional
+    @Operation(summary = "회원가입")
     public RsData<MemberJoinResponseBody> join(
             @RequestBody @Valid MemberJoinRequestBody requestBody) {
         // 일부러 Exception 발생 시키기 위한 코드
@@ -72,16 +74,6 @@ public class ApiV1MemberController {
         );
     }
 
-    @DeleteMapping("/logout")
-    @Transactional
-    public RsData<Empty> logout() {
-        // 쿠키 삭제
-//        rq.removeCookie("actorUserName");
-//        rq.removeCookie("actorPassword");
-        rq.removeCookie("apiKey");
-        return RsData.OK;
-    }
-
     @AllArgsConstructor
     @Getter
     public static class MemberLoginRequestBody {
@@ -101,6 +93,7 @@ public class ApiV1MemberController {
     // 위에 설정한 notblank 제약조건이 실행되게 할려면 받는 바디에 Valid 어노테이션 붙여야 함
     @PostMapping("/login")
     @Transactional
+    @Operation(summary = "로그인", description = "로그인에 성공하면 쿠키에 accessToken, refreshToken이 발급됩니다.")
     public RsData<MemberLoginResponseBody> login(
             @RequestBody @Valid MemberLoginRequestBody requestBody
     ) {
@@ -123,8 +116,19 @@ public class ApiV1MemberController {
                 "200-1",
                 "로그인 되었습니다.",
                 new MemberLoginResponseBody(
-                    new MemberDto(member)
+                        new MemberDto(member)
                 )
         );
+    }
+
+    @DeleteMapping("/logout")
+    @Transactional
+    @Operation(summary = "로그아웃")
+    public RsData<Empty> logout() {
+        // 쿠키 삭제
+//        rq.removeCookie("actorUserName");
+//        rq.removeCookie("actorPassword");
+        rq.removeCookie("apiKey");
+        return RsData.OK;
     }
 }
