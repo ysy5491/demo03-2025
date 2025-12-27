@@ -21,6 +21,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers(HttpMethod.GET, "/")
+                                .permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/*/members", "/api/*/members/login") // post요청으로오는 저 url
                                 .permitAll()// 허용
                                 .requestMatchers("/h2-console/**") // 이 부분은
@@ -28,6 +30,8 @@ public class SecurityConfig {
                                 .requestMatchers("/actuator/**")
                                 .permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
+                                .permitAll()
+                                .requestMatchers(HttpMethod.GET, "/g/**")
                                 .permitAll()
                                 .anyRequest() // 어떤 요청에도
                                 .authenticated() // 인증되야한다
