@@ -22,10 +22,12 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/api/*/members", "/api/*/members/login") // post요청으로오는 저 url
-                                .permitAll()
+                                .permitAll()// 허용
                                 .requestMatchers("/h2-console/**") // 이 부분은
-                                .permitAll() // 허용
+                                .permitAll() // 모든사람이 허용
                                 .requestMatchers("/actuator/**")
+                                .permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
                                 .permitAll()
                                 .anyRequest() // 어떤 요청에도
                                 .authenticated() // 인증되야한다

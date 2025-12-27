@@ -56,6 +56,15 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = rq.getCookieValue("accessToken", null);
         String refreshToken = rq.getCookieValue("refreshToken", null);
 
+        // 특정 경로는 필터링하지 않음(swagger)
+        String path = request.getRequestURI();
+        if (
+                path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui") || path.startsWith("/swagger-ui.html")
+        ) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if (accessToken == null || refreshToken == null) {
             String authorization = request.getHeader("Authorization");
             if (authorization != null) {
