@@ -59,6 +59,7 @@ public class AuthTokenService {
             return false;
         }
     }
+
     // 리프레시 토큰 생성 (랜덤 문자열)
     public String genRefreshToken() {
         SecureRandom random = new SecureRandom();
