@@ -53,8 +53,10 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
 //            return;
 //        }
 
-        String accessToken = rq.getCookieValue("accessToken", null);
-        String refreshToken = rq.getCookieValue("refreshToken", null);
+        String accessToken = null;
+        String refreshToken = null;
+
+        boolean cookieBased = true;
 
         // 특정 경로는 필터링하지 않음(swagger)
         String path = request.getRequestURI();
@@ -65,17 +67,21 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (accessToken == null || refreshToken == null) {
-            String authorization = request.getHeader("Authorization");
-            if (authorization != null) {
-                // Bearer 토큰 사용 (토큰에 이름 비번 삽입)
-                String[] authorizationBits = authorization.substring("Bearer ".length()).trim().split(" ", 2);
-                // 토큰이 2개여야 함
-                if (authorizationBits.length == 2) {
-                    accessToken = authorizationBits[0];
-                    refreshToken = authorizationBits[1];
-                }
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null) {
+            String[] authorizationBits = authorization.substring("Bearer ".length()).split(" ", 2);
+
+            if (authorizationBits.length == 2) {
+                accessToken = authorizationBits[1];
+                refreshToken = authorizationBits[0];
+                cookieBased = false;
             }
+        }
+
+        if (Ut.str.isBlank(accessToken) || Ut.str.isBlank(refreshToken)) {
+            accessToken = rq.getCookieValue("accessToken", null);
+            refreshToken = rq.getCookieValue("refreshToken", null);
+            cookieBased = true;
         }
 
         if (Ut.str.isBlank(accessToken) || Ut.str.isBlank(refreshToken)) {
@@ -94,9 +100,13 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
             }
             // 리프레시 토큰이 유효하면 새로운 액세스 토큰 발급
             String newAccessToken = authTokenService.genToken(member, AppConfig.getAccessTokenExpirationSec()); // 1시간
-            rq.setCookie("accessToken", newAccessToken); // 새로운 액세스 토큰으로 쿠키 갱신
-            log.debug("New Access Token renewd: " + newAccessToken);
 
+            if (cookieBased){
+                rq.setCookie("accessToken", newAccessToken); // 새로운 액세스 토큰으로 쿠키 갱신
+                log.debug("New Access Token renewd: " + newAccessToken);
+            } else
+                response.setHeader("Authorization", "Bearer " + refreshToken + " " + newAccessToken);
+            
             accessToken = newAccessToken; // 이후 인증 처리를 위해 액세스 토큰을 새로 발급한 토큰으로 교체
         }
 

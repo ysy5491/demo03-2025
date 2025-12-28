@@ -10,6 +10,7 @@ import com.ll.demo03.global.rq.Rq;
 import com.ll.demo03.global.rsData.RsData;
 import com.ll.demo03.standard.dto.Empty;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/v1/members")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth") // swagger ui에서 해당 컨트롤러의 api를 사용할 때 인증이 필요하다는 것을 명시
 @Transactional(readOnly = true)
 @Tag(name = "ApiV1MemberController", description = "회원 CRUD 컨트롤러")
 public class ApiV1MemberController {
@@ -131,4 +133,25 @@ public class ApiV1MemberController {
         rq.removeCookie("apiKey");
         return RsData.OK;
     }
+    @AllArgsConstructor
+    @Getter
+    private static class MemberMeResponseBody {
+        MemberDto item;
+    }
+
+    @GetMapping("/me")
+    @Transactional
+    @Operation(summary = "내 정보", description = "로그인한 회원의 정보를 반환합니다.")
+    public RsData<MemberMeResponseBody> me() {
+        Member member = rq.getMember();
+
+        return RsData.of(
+                "200-1",
+                "로그인 되었습니다.",
+                new MemberMeResponseBody(
+                        new MemberDto(member)
+                )
+        );
+    }
+
 }

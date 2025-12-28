@@ -1,5 +1,6 @@
 package com.ll.demo03.domain.member.member.service;
 
+import com.ll.demo03.domain.auth.auth.service.AuthTokenService;
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.repository.MemberRepository;
 import com.ll.demo03.global.exceptions.GlobalException;
@@ -10,13 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthTokenService authTokenService;
 
     @Transactional
     public RsData<Member> join(String username, String password, String nickname) {
@@ -29,7 +30,7 @@ public class MemberService {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
-                .refreshToken(UUID.randomUUID().toString()) // jwt용으로 생성
+                .refreshToken(authTokenService.genRefreshToken()) // jwt용으로 생성
                 .build();
         memberRepository.save(member);
         return RsData.of("회원가입 완료", member);

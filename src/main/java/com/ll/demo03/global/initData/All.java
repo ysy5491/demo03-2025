@@ -2,6 +2,7 @@ package com.ll.demo03.global.initData;
 
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
+import com.ll.demo03.global.AppConfig;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +39,17 @@ public class All {
         if (memberService.count() > 0) return;
 
         Member memberSystem = memberService.join("system", "5491", "시스템").getData();
+        if (AppConfig.isNotProd()) memberSystem.setRefreshToken(memberSystem.getUsername());
+
         Member memberAdmin = memberService.join("admin", "5491", "어드민").getData();
+        if (AppConfig.isNotProd()) memberAdmin.setRefreshToken(memberAdmin.getUsername());
 
         Member memberUser1 = memberService.join("user1", "5491", "유저1").getData();
+        if (AppConfig.isNotProd()) memberUser1.setRefreshToken(memberUser1.getUsername());
+
         Member memberUser2 = memberService.join("user2", "5491", "유저2").getData();
+        if (AppConfig.isNotProd()) memberUser2.setRefreshToken(memberUser2.getUsername());
+
         Member memberUser3 = memberService.join("ysy5491", "5491", "윤지환").getData();
 //        Article article1 = articleService.write(memberSystem, "title1", "body1").getData();
 //        Article article2 = articleService.write(memberAdmin, "title2", "body2").getData();

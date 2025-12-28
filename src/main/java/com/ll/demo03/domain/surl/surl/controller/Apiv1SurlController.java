@@ -10,6 +10,7 @@ import com.ll.demo03.global.rq.Rq;
 import com.ll.demo03.global.rsData.RsData;
 import com.ll.demo03.standard.dto.Empty;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -24,8 +25,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/surls")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // lombok 어노테이션으로 생성자 자동 생성(어떤 생성자냐면 final이 붙은 필드들을 매개변수로 받는 생성자)
 @Slf4j
+@SecurityRequirement(name = "bearerAuth") // swagger ui에서 해당 컨트롤러의 api를 사용할 때 인증이 필요하다는 것을 명시
 @Transactional(readOnly = true)
 @Tag(name = "Apiv1SurlController", description = "surl CRUD 컨트롤러")
 public class Apiv1SurlController {
