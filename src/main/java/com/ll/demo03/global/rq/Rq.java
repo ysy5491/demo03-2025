@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -93,19 +94,49 @@ public class Rq {
                 .orElse(defaultValue);
     }
 
-    public void removeCookie(String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/"); // 모든 페이지(루)
-        resp.addCookie(cookie);
+    public void setCookie(String name, String value) {
+        ResponseCookie cookie = ResponseCookie.from(name, value)
+                .path("/")
+                .maxAge(60 * 60 * 24 * 365 * 100) // 100년
+                .domain(getSiteCookieDomain())
+                .sameSite("Strict")
+                .httpOnly(true)
+                .secure(true)
+                .build();
+        
+        resp.addHeader("Set-Cookie", cookie.toString());
     }
 
-    public void setCookie(String cookieName, String name) {
-        Cookie cookie = new Cookie(cookieName, name);
-        // 1년
-        cookie.setMaxAge(60 * 60 * 24 * 365);
-        cookie.setPath("/");
-        resp.addCookie(cookie);
+    public void removeCookie(String name) {
+        ResponseCookie cookie = ResponseCookie.from(name)
+                .path("/")
+                .maxAge(0) // 브라우저 종료시 삭제
+                .domain(getSiteCookieDomain()) // 도메인 설정 (예: .example.com)
+                .sameSite("Strict") // CSRF 방지 정책 적용 (이게 뭐냐면 다른 사이트에서 내 쿠키를 못쓰게 막는 정책)
+                .httpOnly(true) // 자바스크립트로 쿠키에 접근 불가 (이게 뭐냐면 XSS 공격 방지) 오직 서버에서만 접근 가능
+                .secure(true) // HTTPS에서만 쿠키 전송 (이게 뭐냐면 중간자 공격 방지)
+                .build();
+
+        resp.addHeader("Set-Cookie", cookie.toString());
     }
+
+    private String getSiteCookieDomain() {
+        return "localhost"; // 로컬 개발 환경에서는 도메인 설정이 필요 없을 수 있음
+    }
+
+//    public void removeCookie(String cookieName) {
+//        Cookie cookie = new Cookie(cookieName, null);
+//        cookie.setMaxAge(0);
+//        cookie.setPath("/"); // 모든 페이지(루)
+//        resp.addCookie(cookie);
+//    }
+//
+//    public void setCookie(String cookieName, String name) {
+//        Cookie cookie = new Cookie(cookieName, name);
+//        // 1년
+//        cookie.setMaxAge(60 * 60 * 24 * 365);
+//        cookie.setPath("/");
+//        resp.addCookie(cookie);
+//    }
     // 쿠키 관련 끝
 }
