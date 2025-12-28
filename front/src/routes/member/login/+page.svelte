@@ -43,8 +43,8 @@
         <input type="password" name="password" placeholder="비밀번호"/>
     </div>
     <div>
-        <label>회원가입</label>
-        <input type="submit" value="회원가입">
+        <label>로그인</label>
+        <input type="submit" value="로그인">
     </div>
 </form>
 

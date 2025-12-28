@@ -23,7 +23,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(HttpMethod.GET, "/")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/*/members", "/api/*/members/login") // post요청으로오는 저 url
+                                .requestMatchers(HttpMethod.POST, "/api/*/members", "/api/*/members/login", "/api/*/members/logout") // post요청으로오는 저 url
                                 .permitAll()// 허용
                                 .requestMatchers("/h2-console/**") // 이 부분은
                                 .permitAll() // 모든사람이 허용

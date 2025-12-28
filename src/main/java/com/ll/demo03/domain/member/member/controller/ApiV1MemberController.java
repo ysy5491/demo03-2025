@@ -130,7 +130,9 @@ public class ApiV1MemberController {
         // 쿠키 삭제
 //        rq.removeCookie("actorUserName");
 //        rq.removeCookie("actorPassword");
-        rq.removeCookie("apiKey");
+//        rq.removeCookie("apiKey");
+        rq.removeCookie("refreshToken");
+        rq.removeCookie("accessToken");
         return RsData.OK;
     }
     @AllArgsConstructor
