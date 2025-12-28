@@ -146,8 +146,6 @@ public class ApiV1MemberController {
         Member member = rq.getMember();
 
         return RsData.of(
-                "200-1",
-                "로그인 되었습니다.",
                 new MemberMeResponseBody(
                         new MemberDto(member)
                 )
