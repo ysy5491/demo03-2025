@@ -34,10 +34,21 @@ spring:
           org.hibernate.type.descriptor.sql: INFO # 바인딩되는 파라미터 값
 
 custom:
-    site:
-      name: "my site"
-    accessToken:
-      expirationSec: 600 # 10분
+  dev:
+    cookieDomain: "localhost"
+    frontUrl: "http://${custom.dev.cookieDomain}:5173"
+    backUrl: "http://${custom.dev.cookieDomain}:${server.port}"
+  prod:
+      cookieDomain: "www.ysy5491.store"
+      frontUrl: "https://${custom.prod.cookieDomain}"
+      backUrl: "https://api.${custom.prod.cookieDomain}"
+  site:
+    name: "my site"
+    cookieDomain: "${custom.dev.cookieDomain}" # 현재 dev 모드로 실행중이므로 dev 설정을 참조
+    frontUrl: "${custom.dev.frontUrl}"
+    backUrl: "${custom.dev.backUrl}"
+  accessToken:
+    expirationSec: 600 # 10분
 
 logging:
   level:

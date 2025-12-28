@@ -2,6 +2,7 @@ package com.ll.demo03.global.rq;
 
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
+import com.ll.demo03.global.AppConfig;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -103,7 +104,7 @@ public class Rq {
                 .httpOnly(true)
                 .secure(true)
                 .build();
-        
+
         resp.addHeader("Set-Cookie", cookie.toString());
     }
 
@@ -121,7 +122,11 @@ public class Rq {
     }
 
     private String getSiteCookieDomain() {
-        return "localhost"; // 로컬 개발 환경에서는 도메인 설정이 필요 없을 수 있음
+        String cookieDomain = AppConfig.getSiteCookieDomain();
+
+        if (cookieDomain.equals("localhost")) return cookieDomain;
+
+        return "." + cookieDomain; // .은 의미는 하위 도메인도 포함한다는 뜻 이게 뭐냐면 example.com, www.example.com, app.example.com 다 포함
     }
 
 //    public void removeCookie(String cookieName) {

@@ -36,3 +36,7 @@ logging:
 custom:
   site:
     name: "My Site Prod"
+    cookieDomain: "${custom.prod.cookieDomain}"
+    frontUrl: "${custom.prod.frontUrl}"
+    backUrl: "${custom.prod.backUrl}"
+
