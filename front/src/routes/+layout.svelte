@@ -11,10 +11,12 @@
         
 </script>
 <slot />
-
-<nav>
-    <a href="/">메인</a>
-    <a href="/member/login">로그인</a>
-    <button type="button" on:click|preventDefault={logout}>로그아웃</button>
-</nav>
-
+<header>
+    <nav>
+        <a href="/">메인</a>
+        <a href="/member/login">로그인</a>
+        <button type="button" on:click|preventDefault={logout}>로그아웃</button>
+        <a href="/member/me">내 정보</a>
+        <a href="/todo">할 일 리스트</a>
+    </nav>
+</header>
