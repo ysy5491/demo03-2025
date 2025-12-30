@@ -170,12 +170,6 @@
         background-color: #c82333;
     }
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        padding: 20px;
-    }
-
     p {
         font-size: 1rem;
         color: #666;

@@ -1,4 +1,16 @@
 <script lang="ts">
+
+    import createClient from 'openapi-fetch';
+
+    import type { paths } from '$lib/backend/apiV1/schema';
+
+    type Client = ReturnType<typeof createClient<paths>>;
+
+    const client: Client = createClient<paths>({
+        baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
+        credentials: 'include',
+    });
+
     class GlobalError extends Error {
         rs: any;
 
@@ -21,22 +33,36 @@
 
     async function getME() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/me`, {
-                credentials: 'include' // 쿠키 먹기 위해 포함
-            });
+            const { data, error } = await client.GET('/api/v1/members/me');
 
-            const rs = await response.json();
-
-            if (!response.ok) {
-                throw new GlobalError(rs);
+            if (data) {
+                member = data.item;
+            } else if (error) {
+                throw new GlobalError(error);
             }
-
-            member = rs.data.item
         } catch (error: any) {
             errorMEssage = error.rs.msg;
             console.error(error.rs);
         }
     }
+    // async function getME() {
+    //     try {
+    //         const response = await fetch(`${import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/me`, {
+    //             credentials: 'include' // 쿠키 먹기 위해 포함
+    //         });
+
+    //         const rs = await response.json();
+
+    //         if (!response.ok) {
+    //             throw new GlobalError(rs);
+    //         }
+
+    //         member = rs.data.item
+    //     } catch (error: any) {
+    //         errorMEssage = error.rs.msg;
+    //         console.error(error.rs);
+    //     }
+    // }
 
     $effect(() => {
         getME();

@@ -34,6 +34,7 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.13.1",
 		"globals": "^16.5.0",
+		"openapi-typescript": "^7.10.1",
 		"playwright": "^1.57.0",
 		"prettier": "^3.7.4",
 		"prettier-plugin-svelte": "^3.4.0",
@@ -47,5 +48,8 @@
 		"vite-plugin-devtools-json": "^1.0.0",
 		"vitest": "^4.0.15",
 		"vitest-browser-svelte": "^2.0.1"
+	},
+	"dependencies": {
+		"openapi-fetch": "^0.15.0"
 	}
 }
