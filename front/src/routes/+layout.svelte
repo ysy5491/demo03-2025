@@ -1,22 +1,10 @@
 <script lang="ts">
-	import { preventDefault } from "svelte/legacy";
-
-    import createClient from 'openapi-fetch';
-
-    import type { paths } from '$lib/backend/apiV1/schema';
-	import { goto } from "$app/navigation";
-
-    type Client = ReturnType<typeof createClient<paths>>;
-
-    const client: Client = createClient<paths>({
-        baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
-        credentials: 'include',
-    });
+	import rq from "$lib/rq/rq.svelte";
 
     async function logout() {
-        await client.DELETE('/api/v1/members/logout');
+        await rq.getClient().DELETE('/api/v1/members/logout');
         alert('로그아웃 되었습니다.');
-        goto('/');
+        rq.goto('/');
     }
 
     // async function logout() { // async란 비동기 함수라는 뜻 비동기 함수는 작업이 완료될 때까지 기다리지 않고 다음 작업을 계속 진행

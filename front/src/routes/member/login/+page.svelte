@@ -1,15 +1,5 @@
 <script lang="ts">
-    import createClient from 'openapi-fetch';
-
-    import type { paths } from '$lib/backend/apiV1/schema';
-	import { goto } from '$app/navigation';
-
-    type Client = ReturnType<typeof createClient<paths>>;
-
-    const client: Client = createClient<paths>({
-        baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
-        credentials: 'include',
-    });
+	import rq from "$lib/rq/rq.svelte";
 
     async function submitLoginForm(this : HTMLFormElement) {
         const form: HTMLFormElement = this;
@@ -30,7 +20,7 @@
             return; 
         }
 
-        const {data, error} = await client.POST('/api/v1/members/login', {
+        const {data, error} = await rq.getClient().POST('/api/v1/members/login', {
             body: {
                 username: form.username.value,
                 password: form.password.value
@@ -40,7 +30,7 @@
         if (data) {
             console.log('로그인 성공', data);
             alert('로그인에 성공했습니다.');
-            goto('/');
+            rq.goto('/');
         } else if (error) {
             console.error('로그인 실패', error);
             alert('로그인에 실패했습니다: ' + error.msg);

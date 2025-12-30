@@ -1,30 +1,12 @@
 <script lang="ts">
-
-    import createClient from 'openapi-fetch';
-
-    import type { components, paths } from '$lib/backend/apiV1/schema';
-
-    type Client = ReturnType<typeof createClient<paths>>;
-
-    const client: Client = createClient<paths>({
-        baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
-        credentials: 'include',
-    });
+    import type { components } from '$lib/backend/apiV1/schema';
+    import rq from "$lib/rq/rq.svelte";
     
-    class GlobalError extends Error {
-        rs: any;
-
-        constructor(rs: any) {
-            super(rs.msg);
-            this.rs = rs;
-        }
-    }
-
     let member: components['schemas']['MemberDto'] | null = $state(null);
     let errorMEssage: string | null = $state(null);
 
     async function getME() {
-        const {data, error} = await client.GET('/api/v1/members/me');
+        const {data, error} = await rq.getClient().GET('/api/v1/members/me');
         
         if (data) {
             member = data.data.item
