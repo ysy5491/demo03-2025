@@ -27,7 +27,7 @@
         const {data, error} = await client.GET('/api/v1/members/me');
         
         if (data) {
-            member = data.data.item!
+            member = data.data.item
             errorMEssage = null;
         } else if (error) {
             errorMEssage = '내 정보 조회에 실패했습니다: ' + error.msg;
