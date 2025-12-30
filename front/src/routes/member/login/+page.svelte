@@ -2,6 +2,7 @@
     import createClient from 'openapi-fetch';
 
     import type { paths } from '$lib/backend/apiV1/schema';
+	import { goto } from '$app/navigation';
 
     type Client = ReturnType<typeof createClient<paths>>;
 
@@ -39,7 +40,7 @@
         if (data) {
             console.log('로그인 성공', data);
             alert('로그인에 성공했습니다.');
-            location.href = '/';
+            goto('/');
         } else if (error) {
             console.error('로그인 실패', error);
             alert('로그인에 실패했습니다: ' + error.msg);
