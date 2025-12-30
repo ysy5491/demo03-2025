@@ -17,6 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,7 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     public static class MemberJoinResponseBody {
+        @NonNull
         MemberDto item;
     }
 
@@ -88,6 +90,7 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     public static class MemberLoginResponseBody {
+        @NonNull
         MemberDto item;
     }
 
@@ -138,6 +141,7 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     private static class MemberMeResponseBody {
+        @NonNull
         MemberDto item;
     }
 
