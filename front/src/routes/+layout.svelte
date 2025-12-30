@@ -1,22 +1,27 @@
 <script lang="ts">
 	import rq from "$lib/rq/rq.svelte";
 
+    
     async function logout() {
         await rq.getClient().DELETE('/api/v1/members/logout');
+        rq.setLogout();
         alert('로그아웃 되었습니다.');
         rq.goto('/');
     }
-
+    
     // async function logout() { // async란 비동기 함수라는 뜻 비동기 함수는 작업이 완료될 때까지 기다리지 않고 다음 작업을 계속 진행
     //     const rs = await fetch(`${import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/logout`, {
-    //         method: 'DELETE',
-    //         credentials: 'include', // 쿠키 먹기 위해 포함            
-    //     }).then((res) => res.json());
+        //         method: 'DELETE',
+        //         credentials: 'include', // 쿠키 먹기 위해 포함            
+        //     }).then((res) => res.json());
         
-    //     console.log(rs);
-    // }
-        
-</script>
+        //     console.log(rs);
+        // }
+    // 사용자가 페이지를 새로고침해도 인증 상태를 유지하기 위해 initAuth 함수를 호출
+    $effect(() => {
+        rq.initAuth();
+    });
+    </script>
 <slot />
 <header>
     <nav>

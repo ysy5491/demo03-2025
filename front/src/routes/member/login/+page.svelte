@@ -29,6 +29,7 @@
         
         if (data) {
             console.log('로그인 성공', data);
+            rq.setLogined(data.data.item)
             alert('로그인에 성공했습니다.');
             rq.goto('/');
         } else if (error) {

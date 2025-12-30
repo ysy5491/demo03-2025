@@ -21,12 +21,12 @@
     });
 </script>
 
-{#if member}
+{#if rq.isLogin()}
     <h1>내 정보</h1>
-    <p>아이디: {member.username}</p>
-    <p>닉네임: {member.nickname}</p>
-    <p>생성일: {member.createDate}</p>
-    <p>수정일: {member.modifyDate}</p>
+    <p>아이디: {rq.member.username}</p>
+    <p>닉네임: {rq.member.nickname}</p>
+    <p>생성일: {rq.member.createDate}</p>
+    <p>수정일: {rq.member.modifyDate}</p>
 {:else if errorMEssage}
     <h1>오류 발생</h1>
     <p>{errorMEssage}</p>
