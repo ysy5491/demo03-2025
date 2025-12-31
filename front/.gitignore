@@ -14,11 +14,10 @@ node_modules
 Thumbs.db
 
 # Env
-.env.local
-.env.*
 !.env.example
 !.env.test
 apiV1.json
+# .env removed
 .env
 
 # Vite
