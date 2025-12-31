@@ -89,7 +89,7 @@
     </div>
     <div>
         <label>비밀번호 확인</label>
-        <input type="submit" name="passwordConfirm" value="비밀번호 확인">
+        <input type="password" name="passwordConfirm" placeholder="비밀번호 확인">
     </div>
     <div>
         <label>회원가입</label>
