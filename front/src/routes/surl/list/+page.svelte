@@ -14,8 +14,26 @@
         }
     }
 
+    async function deleteSurl(surl: components['schemas']['SurlDto']) {
+        const {data, error} = await rq.getClient().DELETE(`/api/v1/surls/{id}`, {
+            params: {
+                path: {
+                    id: surl.id
+                }
+            }
+        });
+
+        if (data) { 
+            surls.splice(surls.findIndex(s => s.id === surl.id), 1); // splice는 배열에서 요소를 제거 또는 교체하는 메서드 
+        }
+        else if (error) {
+            error.msg && alert(error.msg);
+        }
+    }
+
     $effect(() => {
         getSurls();
+        deleteSurl;
     });
 </script>
 
@@ -27,6 +45,8 @@
             {surl.id} : {surl.url} 
             <br>
             {surl.body}
+
+            <button type="button" on:click|preventDefault={() => confirm('정말로 삭제하시겠습니까?') && deleteSurl(surl)}>삭제</button> 
         </li>
     {/each}
         
