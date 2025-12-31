@@ -5,6 +5,7 @@
 
     let surl = $state<components['schemas']['SurlDto'] | null>(null);
     let errorMessage = $state<string | null>(null);
+    let surls = $state<components['schemas']['SurlDto'][]>([]); 
 
     async function getSurl() {
         const {data, error} = await rq.getClient().GET('/api/v1/surls/{id}', {
@@ -20,6 +21,23 @@
         } else if (error) {
             // error.msg && alert('단축 URL 조회에 실패했습니다: ' + error.msg);
             errorMessage = error.msg;
+        }
+    }
+
+    async function deleteSurl(surl: components['schemas']['SurlDto']) {
+        const {data, error} = await rq.getClient().DELETE(`/api/v1/surls/{id}`, {
+            params: {
+                path: {
+                    id: surl.id
+                }
+            }
+        });
+
+        if (data) { 
+            surls.splice(surls.findIndex(s => s.id === surl.id), 1); // splice는 배열에서 요소를 제거 또는 교체하는 메서드 
+        }
+        else if (error) {
+            error.msg && alert(error.msg);
         }
     }
 
@@ -49,6 +67,11 @@
 
     <div>
         수정일: {surl.modifyDate}
+    </div>
+    <div>
+        <button type="button" onclick={() => history.back()}>뒤로가기</button>
+        <button type="button" onclick={() => rq.replace(`/surl/${surl.id}/edit`)}>수정</button>
+        <button type="button" onclick={() => confirm('정말로 삭제하시겠습니까?') && deleteSurl(surl)}>삭제</button> 
     </div>
 {:else if errorMessage}
     <div>

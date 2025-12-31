@@ -46,6 +46,7 @@
             <br>
             {surl.body}
 
+            <button type="button" on:click={() => rq.goto(`/surl/${surl.id}/edit`)}>수정</button>
             <button type="button" on:click|preventDefault={() => confirm('정말로 삭제하시겠습니까?') && deleteSurl(surl)}>삭제</button> 
         </li>
     {/each}
