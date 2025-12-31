@@ -42,7 +42,7 @@
 <ul>
     {#each surls as surl (surl.id)}
         <li>
-            {surl.id} : {surl.url} 
+            <a href="/surl/{surl.id}">{surl.id}</a> : {surl.url} 
             <br>
             {surl.body}
 
