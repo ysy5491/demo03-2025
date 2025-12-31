@@ -26,9 +26,17 @@
 <header>
     <nav>
         <a href="/">메인</a>
-        <a href="/member/login">로그인</a>
-        <button type="button" on:click|preventDefault={logout}>로그아웃</button>
-        <a href="/member/me">내 정보</a>
+        {#if rq.isLogin()}
+            <button type="button" on:click|preventDefault={logout}>로그아웃</button>
+            <a href="/member/me">{rq.member.nickname}님의 정보</a>\
+            <a href="/surl/list">단축 URL 목록</a>
+            <a href="/surl/add">단축 URL 생성</a>
+        {/if}
+        {#if rq.isLogout()}
+            <a href="/member/login">로그인</a>
+            <a href="/member/join">회원가입</a>
+        {/if}
+
         <a href="/todo">할 일 리스트</a>
     </nav>
 </header>

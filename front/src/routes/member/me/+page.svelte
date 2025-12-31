@@ -21,6 +21,8 @@
     });
 </script>
 
+<h1>내 정보</h1>
+
 {#if rq.isLogin()}
     <h1>내 정보</h1>
     <p>아이디: {rq.member.username}</p>
