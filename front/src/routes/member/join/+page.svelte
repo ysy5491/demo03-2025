@@ -42,7 +42,7 @@
 
         const {data, error} = await rq.getClient().POST('/api/v1/members', {
             body: {
-                nickname: form.username.value,
+                nickname: form.nickname.value,
                 username: form.username.value,
                 password: form.password.value
             }
@@ -112,7 +112,7 @@
     }
     input[type="text"],
     input[type="password"] {
-        width: 100%;
+        width: 100%;    
         padding: 8px;
         box-sizing: border-box;
     }

@@ -33,7 +33,6 @@
 
     $effect(() => {
         getSurls();
-        deleteSurl;
     });
 </script>
 
