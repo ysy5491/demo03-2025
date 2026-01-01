@@ -50,7 +50,6 @@
         
         if (data) {
             console.log('회원가입 성공', data);
-            rq.setLogined(data.data.item)
             alert('회원가입에 성공했습니다.');
             rq.goto('/member/login');
         } else if (error) {
